@@ -5,7 +5,7 @@ from aiogram.enums import ContentType
 from aiogram.client.default import DefaultBotProperties
 
 # === 🔧 Настройки ===
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+BOT_TOKEN = "7266686910:AAHjoI92YcvqSHgtilXPiEyoZBvubRNYU7A"
 SOURCE_CHAT_ID = -1002429690404  # Группа, где бот слушает сообщения
 
 # Теги и подтемы
