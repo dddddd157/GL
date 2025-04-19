@@ -5,8 +5,8 @@ from aiogram.enums import ContentType
 from aiogram.client.default import DefaultBotProperties
 
 # === 🔧 Настройки ===
-BOT_TOKEN = "7266686910:AAHjoI92YcvqSHgtilXPiEyoZBvubRNYU7A"
-SOURCE_CHAT_ID = -1002429690404  # Группа, где бот слушает сообщения
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+SOURCE_CHAT_ID = int(os.getenv("SOURCE_CHAT_ID", "-1002429690404"))
 
 # Теги и подтемы
 TAG_CHAT_MAPPING = {
