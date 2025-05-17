@@ -1,17 +1,20 @@
-# Используем официальный Python-образ
+# Используем образ Python с поддержкой сборки C-расширений
 FROM python:3.13-slim
 
-# Устанавливаем рабочую директорию внутри контейнера
+# Установка зависимостей для сборки aiohttp и других C-зависимостей
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libffi-dev \
+    libssl-dev \
+    python3-dev \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
-# Копируем файлы в контейнер
 COPY . .
 
-# Устанавливаем зависимости
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Указываем переменные окружения
-ENV PYTHONUNBUFFERED=1
-
-# Запускаем бота
 CMD ["python", "bot.py"]
