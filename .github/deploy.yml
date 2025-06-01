@@ -1,0 +1,38 @@
+name: Deploy Bot to Server
+
+on:
+  push:
+    branches:
+      - main  # или master, в зависимости от твоей основной ветки
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Sync files via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          script: |
+            echo "Очистка старых файлов..."
+            rm -rf ~/mybot/*
+            
+            echo "Копируем новые файлы..."
+            cp -r ~/github_workspace/* ~/mybot/
+
+            cd ~/mybot
+
+            echo "Установка зависимостей..."
+            pip3 install -r requirements.txt
+
+            echo "Останавливаем старый процесс..."
+            pkill -f bot.py || true
+
+            echo "Запуск бота..."
+            nohup python3 bot.py > bot.log 2>&1 &
